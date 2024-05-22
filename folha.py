@@ -38,9 +38,14 @@ def inserir_funcionario(funcionarios):
     
     if cod_funcao == 101:
         vol_vendas = float(input("Informe o volume de vendas do mês: "))
-        sal_bruto = 1500 + (vol_vendas * 0.09)
+        sal_fixo = 1500
+        sal_bruto = sal_fixo + (vol_vendas * 0.09)
     elif cod_funcao == 102:
-        sal_bruto = float(input("Informe o salário: "))
+        sal_fixo = float(input("Informe o salário fixo: "))
+        sal_bruto = sal_fixo
+    else: 
+        print("Código de função inválido. Funcionário não inserido.")
+        return
     
     if sal_bruto <= 2259.20:
         percentual_imposto = 0
@@ -53,12 +58,20 @@ def inserir_funcionario(funcionarios):
     else:
         percentual_imposto = 27.5
     
-    funcionario = {"matricula": matricula,"nome": nome,"codigo_funcao": cod_funcao,"salario_bruto": sal_bruto,"faltas": num_falta,"percentual_imposto": percentual_imposto}
+    funcionario = {
+    "matricula": matricula,
+    "nome": nome,
+    "codigo_funcao": cod_funcao,
+    "salario_fixo": sal_fixo,
+    "salario_bruto": sal_bruto,
+    "faltas": num_falta,
+    "percentual_imposto": percentual_imposto
+    }
     
     funcionarios[matricula] = funcionario
 
 def remover_funcionario(funcionarios):
-    matricula = int(input("Matrícula do funcionário a remover: "))
+    matricula = int(input("Matrícula do funcionário que deseja remover: "))
     if matricula in funcionarios:
         del funcionarios[matricula]
         print("Funcionário removido.")
