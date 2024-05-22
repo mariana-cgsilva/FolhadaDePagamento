@@ -32,43 +32,51 @@ def inicio(funcionarios):
 
 def inserir_funcionario(funcionarios):
     matricula = int(input("Digite a matrícula: "))
-    nome = input("Digite o nome: ")
-    cod_funcao = int(input("Informe o código da função: "))
-    num_falta = int(input("Informe as faltas no mês: "))
+
+    if matricula not in funcionarios.keys():
+
+        nome = input("Digite o nome: ")
+        cod_funcao = int(input("Informe o código da função: "))
+        num_falta = int(input("Informe as faltas no mês: "))
     
-    if cod_funcao == 101:
-        vol_vendas = float(input("Informe o volume de vendas do mês: "))
-        sal_fixo = 1500
-        sal_bruto = sal_fixo + (vol_vendas * 0.09)
-    elif cod_funcao == 102:
-        sal_fixo = float(input("Informe o salário fixo: "))
-        sal_bruto = sal_fixo
+        if cod_funcao == 101:
+            vol_vendas = float(input("Informe o volume de vendas do mês: "))
+            sal_fixo = 1500
+            sal_bruto = sal_fixo - (1500/30) * num_falta + (vol_vendas * 0.09) 
+        elif cod_funcao == 102:
+            sal_fixo = float(input("Informe o salário fixo: "))
+            sal_bruto = sal_fixo - (sal_fixo/30) * num_falta
     else: 
         print("Código de função inválido. Funcionário não inserido.")
         return
-    
+        
+    #ALTERAR COMO MOSTRA ESSE ELSE -- DEVE MOSTRAR LOGO APOS APOS IN
+        
     if sal_bruto <= 2259.20:
         percentual_imposto = 0
-    elif sal_bruto >= 2828.65 and sal_bruto <= 2828.65:
+    elif sal_bruto >= 2259.65 and sal_bruto <= 2828.65:
         percentual_imposto = 7.5
     elif sal_bruto >= 2828.65 and sal_bruto <= 3751.05:
         percentual_imposto = 15
     elif sal_bruto >= 3751.05 and sal_bruto <= 4664.68:
         percentual_imposto = 22.5
-    else:
+    elif sal_bruto >= 4664.69:
         percentual_imposto = 27.5
     
-    funcionario = {
-    "matricula": matricula,
-    "nome": nome,
-    "codigo_funcao": cod_funcao,
-    "salario_fixo": sal_fixo,
-    "salario_bruto": sal_bruto,
-    "faltas": num_falta,
-    "percentual_imposto": percentual_imposto
-    }
+        funcionario = {
+        "matricula": matricula,
+        "nome": nome,
+        "codigo_funcao": cod_funcao,
+        "salario_fixo": sal_fixo,
+        "salario_bruto": sal_bruto,
+        "faltas": num_falta,
+        "percentual_imposto": percentual_imposto
+        }
     
-    funcionarios[matricula] = funcionario
+        funcionarios[matricula] = funcionario
+        
+    else:
+        print("Já existe um funcionário com essa matrícula.")
 
 def remover_funcionario(funcionarios):
     matricula = int(input("Matrícula do funcionário que deseja remover: "))
@@ -82,7 +90,7 @@ def folha_pagamento(funcionarios):
     matricula = int(input("Matrícula do funcionário: "))
     if matricula in funcionarios:
         funcionario = funcionarios[matricula]
-        salario_liquido = calcular_salario_liquido(funcionario)
+        salario_liquido = calcular_imposto(funcionario)
         print(f"Matrícula: {funcionario['matricula']}")
         print(f"Nome: {funcionario['nome']}")
         print(f"Código da Função: {funcionario['codigo_funcao']}")
@@ -99,7 +107,7 @@ def relatorio(funcionarios):
     print("Matrícula | Nome | Código da Função | Salário Bruto | Salário Líquido")
     for matricula in funcionarios.keys():
         funcionario = funcionarios[matricula]
-        salario_liquido = calcular_salario_liquido(funcionario)
+        salario_liquido = calcular_imposto(funcionario)
         print(f"{funcionario['matricula']} | {funcionario['nome']} | {funcionario['codigo_funcao']} | {funcionario['salario_bruto']} | {salario_liquido}")
 
 def funcionario_maior_salario(funcionarios):
@@ -111,7 +119,7 @@ def funcionario_maior_salario(funcionarios):
     
     for matricula in funcionarios.keys():
         funcionario = funcionarios[matricula]
-        salario_liquido = calcular_salario_liquido(funcionario)
+        salario_liquido = calcular_imposto(funcionario)
         if salario_liquido > maior_salario_liquido:
             funcionario_maior_salario_liquido = funcionario
             maior_salario_liquido = salario_liquido
@@ -140,10 +148,9 @@ def funcionario_mais_faltas(funcionarios):
         print(f"Número de Faltas: {funcionario_maior_numero_faltas['faltas']}")
         print(f"Desconto no Salário: {desconto_faltas}")
 
-def calcular_salario_liquido(funcionario):
-    desconto_faltas = (funcionario["salario_bruto"] / 30) * funcionario["faltas"]
+def calcular_imposto(funcionario):
     imposto = funcionario["salario_bruto"] * (funcionario["percentual_imposto"] / 100)
-    return funcionario["salario_bruto"] - imposto - desconto_faltas
+    return funcionario["salario_bruto"] - imposto
 
 def imprimir_info_funcionario(funcionario, salario_liquido):
     print(f"Matrícula: {funcionario['matricula']}")
