@@ -46,11 +46,13 @@ def inserir_funcionario(funcionarios):
         elif cod_funcao == 102:
             sal_fixo = float(input("Informe o salário fixo: "))
             sal_bruto = sal_fixo - (sal_fixo/30) * num_falta
-    else: 
-        print("Código de função inválido. Funcionário não inserido.")
-        return
+        elif cod_funcao != 101 or 102: 
+            print("Código de função inválido. Funcionário não inserido.")
+            return
+    else:
+        print("Já existe um funcionário com essa matrícula.")
         
-    #ALTERAR COMO MOSTRA ESSE ELSE -- DEVE MOSTRAR LOGO APOS APOS IN
+    #ALTERAR COMO MOSTRA ESSE ELSE -- DEVE MOSTRAR LOGO APOS APOS IN!!! 
         
     if sal_bruto <= 2259.20:
         percentual_imposto = 0
@@ -74,10 +76,8 @@ def inserir_funcionario(funcionarios):
         }
     
         funcionarios[matricula] = funcionario
-        
-    else:
-        print("Já existe um funcionário com essa matrícula.")
 
+    
 def remover_funcionario(funcionarios):
     matricula = int(input("Matrícula do funcionário que deseja remover: "))
     if matricula in funcionarios:
