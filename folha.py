@@ -49,11 +49,11 @@ def inserir_funcionario(funcionarios):
     
     if sal_bruto <= 2259.20:
         percentual_imposto = 0
-    elif sal_bruto <= 2828.65:
+    elif sal_bruto >= 2828.65 and sal_bruto <= 2828.65:
         percentual_imposto = 7.5
-    elif sal_bruto <= 3751.05:
+    elif sal_bruto >= 2828.65 and sal_bruto <= 3751.05:
         percentual_imposto = 15
-    elif sal_bruto <= 4664.68:
+    elif sal_bruto >= 3751.05 and sal_bruto <= 4664.68:
         percentual_imposto = 22.5
     else:
         percentual_imposto = 27.5
