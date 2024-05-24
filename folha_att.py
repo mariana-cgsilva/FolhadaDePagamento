@@ -142,7 +142,7 @@ def funcionario_maior_salario(funcionarios):
             funcionario_maior_salario_liquido = funcionario
             maior_salario_liquido = salario_liquido
     
-    if funcionario_maior_salario_liquido:
+    if funcionario_maior_salario_liquido!=None:
         imprimir_info_funcionario(funcionario_maior_salario_liquido, maior_salario_liquido)
 
 def funcionario_mais_faltas(funcionarios):
@@ -158,7 +158,7 @@ def funcionario_mais_faltas(funcionarios):
             funcionario_maior_numero_faltas = funcionario
             maior_numero_faltas = funcionario["faltas"]
     
-    if funcionario_maior_numero_faltas:
+    if funcionario_maior_numero_faltas!=None:
         desconto_faltas = funcionario_maior_numero_faltas["faltas"] * (funcionario_maior_numero_faltas["salario_bruto"] / 30)
         print(f"Matrícula: {funcionario_maior_numero_faltas['matricula']}")
         print(f"Nome: {funcionario_maior_numero_faltas['nome']}")
