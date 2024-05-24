@@ -19,8 +19,10 @@ def inicio(funcionarios,abrir_menu):
         print('-' * 88)
         print(f"|{'7. Sair':^86}|")
         print('-' * 88)
+        print()
 
         opcao = input("Escolha uma opção: ")
+        print()
         
         if opcao == "1":
             inserir_funcionario(funcionarios)
@@ -40,7 +42,7 @@ def inicio(funcionarios,abrir_menu):
         else:
             print("Opção inválida. Tente novamente.")
     
-        opcao2 = input('Deseja abrir o menu novamente? (s/n): ')
+        opcao2 = input('\nDeseja abrir o menu novamente? (s/n): ')
         if opcao2.lower() != 's':
             abrir_menu = 'fechado'
 
@@ -103,10 +105,13 @@ def remover_funcionario(funcionarios):
         print("Funcionário não encontrado.")
 
 def folha_pagamento(funcionarios):
-    matricula = int(input("Matrícula do funcionário: "))
+    matricula = int(input("Matrícula do funcionário que deseja procurar: "))
+    print()
     if matricula in funcionarios:
         funcionario = funcionarios[matricula]
         salario_liquido = calcular_imposto(funcionario)
+        print("Folha de Pagamento do funcionário")
+        print('-' * 40)
         print(f"Matrícula: {funcionario['matricula']}")
         print(f"Nome: {funcionario['nome']}")
         print(f"Código da Função: {funcionario['codigo_funcao']}")
@@ -121,11 +126,12 @@ def relatorio(funcionarios):
         print("Nenhum funcionário cadastrado.")
         return
     
-    print("Matrícula | Nome | Código da Função | Salário Bruto | Salário Líquido")
+    print(f"{'Matrícula':<10} | {'Nome':<20} | {'Código da Função':<16} | {'Salário Bruto':<14} | {'Salário Líquido':<15}")
+    print("-" * 80)
     for matricula in funcionarios:
         funcionario = funcionarios[matricula]
         salario_liquido = calcular_imposto(funcionario)
-        print(f"{funcionario['matricula']} | {funcionario['nome']} | {funcionario['codigo_funcao']} | {funcionario['salario_bruto']} | {salario_liquido}")
+        print(f"{funcionario['matricula']:<10} | {funcionario['nome']:<20} | {funcionario['codigo_funcao']:<16} | {funcionario['salario_bruto']:<14.2f} | {salario_liquido:<15.2f}")
 
 
 def funcionario_maior_salario(funcionarios):
@@ -143,6 +149,8 @@ def funcionario_maior_salario(funcionarios):
             maior_salario_liquido = salario_liquido
     
     if funcionario_maior_salario_liquido!=None:
+        print("Funcionário com maior salário")
+        print('-' * 40)
         imprimir_info_funcionario(funcionario_maior_salario_liquido, maior_salario_liquido)
 
 def funcionario_mais_faltas(funcionarios):
@@ -160,21 +168,24 @@ def funcionario_mais_faltas(funcionarios):
     
     if funcionario_maior_numero_faltas!=None:
         desconto_faltas = funcionario_maior_numero_faltas["faltas"] * (funcionario_maior_numero_faltas["salario_bruto"] / 30)
+        print("Funcionário com mais faltas")
+        print('-' * 40)
         print(f"Matrícula: {funcionario_maior_numero_faltas['matricula']}")
         print(f"Nome: {funcionario_maior_numero_faltas['nome']}")
         print(f"Código da Função: {funcionario_maior_numero_faltas['codigo_funcao']}")
         print(f"Número de Faltas: {funcionario_maior_numero_faltas['faltas']}")
-        print(f"Desconto no Salário: {desconto_faltas}")
+        print(f"Desconto no Salário: {desconto_faltas:.2f}")
 
 def calcular_imposto(funcionario):
     imposto = funcionario["salario_bruto"] * (funcionario["percentual_imposto"] / 100)
-    return funcionario["salario_bruto"] - imposto
+    salario_liquido = funcionario["salario_bruto"] - imposto
+    return round(salario_liquido, 2)
 
 def imprimir_info_funcionario(funcionario, salario_liquido):
     print(f"Matrícula: {funcionario['matricula']}")
     print(f"Nome: {funcionario['nome']}")
     print(f"Código da Função: {funcionario['codigo_funcao']}")
-    print(f"Salário Bruto: {funcionario['salario_bruto']}")
+    print(f"Salário Bruto: {funcionario['salario_bruto']:.2f}")
     print(f"Percentual de Imposto: {funcionario['percentual_imposto']}%")
     print(f"Salário Líquido: {salario_liquido}")
     
